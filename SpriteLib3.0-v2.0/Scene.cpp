@@ -54,6 +54,8 @@ void Scene::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Camera>(entity).Orthographic(aspectRatio, temp.x, temp.y, temp.z, temp.w, -100.f, 100.f);
 	}
 
+	
+
 	//Setup new Entity
 	{
 		//Creates entity
@@ -123,6 +125,44 @@ void Scene::CreateCameraEntity(bool mainCamera, float windowWidth, float windowH
 			ECS::GetComponent<VerticalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 		}
 	}
+}
+
+void Scene::CreatePhysiscsSprite(bool stad,std::string name, int width, int height, float posX, float posY, int angle, float transparency, float friction, float density)
+{
+	auto entity = ECS::CreateEntity();
+
+	//Add components 
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+
+	//Sets up components 
+	std::string fileName = name;
+	ECS::GetComponent<Sprite>(entity).LoadSprite(name, width, height);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(transparency);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 2.f));
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 0.f;
+	float shrinkY = 0.f;
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	if (stad) {
+		tempDef.type = b2_staticBody;
+	}
+	else {
+		tempDef.type = b2_dynamicBody;
+	}
+	tempDef.position.Set(float32(posX), float32(posY));
+
+	tempDef.angle = Transform::ToRadians(angle);
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS, friction, density);
+	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.f));
 }
 
 entt::registry* Scene::GetScene() const
