@@ -127,7 +127,7 @@ void Scene::CreateCameraEntity(bool mainCamera, float windowWidth, float windowH
 	}
 }
 
-void Scene::CreatePhysiscsSprite(bool stad,std::string name, int width, int height, float posX, float posY, int angle, float transparency, float friction, float density)
+void Scene::CreatePhysiscsSprite(bool stad,bool circle, bool square,std::string name, int width, int height, int layer, float posX, float posY, int angle, float transparency, float friction, float density)
 {
 	auto entity = ECS::CreateEntity();
 
@@ -140,7 +140,7 @@ void Scene::CreatePhysiscsSprite(bool stad,std::string name, int width, int heig
 	std::string fileName = name;
 	ECS::GetComponent<Sprite>(entity).LoadSprite(name, width, height);
 	ECS::GetComponent<Sprite>(entity).SetTransparency(transparency);
-	ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 2.f));
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f,layer));
 
 	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -157,12 +157,17 @@ void Scene::CreatePhysiscsSprite(bool stad,std::string name, int width, int heig
 	}
 	tempDef.position.Set(float32(posX), float32(posY));
 
-	tempDef.angle = Transform::ToRadians(angle);
+	
 
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS, friction, density);
+	if (square) {
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | TRIGGER, friction, density);
+	}
+	if (circle) {
+		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetWidth() - shrinkY) / 2.f), vec2(0.f, 0.f), false, OBJECTS, GROUND | ENVIRONMENT | PLAYER | TRIGGER, 0.3f);
+	}
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.f));
+	tempPhsBody.SetRotationAngleDeg(angle);
 }
 
 entt::registry* Scene::GetScene() const
