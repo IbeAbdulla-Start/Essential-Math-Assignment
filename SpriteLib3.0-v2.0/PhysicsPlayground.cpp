@@ -77,7 +77,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(410.f), float32(200.f));
+		tempDef.position.Set(float32(2500.f), float32(320.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -205,8 +205,65 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//Floor Up 2
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 15, 0, 250.f, 200.f, 0, 1, 0.3, 0.3);
 
+	//Button 2
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 50, 5, 0, 200.f, 230.f, 90, 1, 0.3, 0.3);
+
 	//Second door
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 80, 10, 0, 694.f, 25.f, 90, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 80, 10, 0, 694.f, 100.f, 90, 1, 0.3, 0.3); // make duplicate with y = 25.f later for closed door or dynamic body trick, either make a duplicate and make it a trigger to destroy it, then trigger another to show up after they pass the door
+	
+	//Wall 2
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 400, 50, 1, 694.f, 250.f, 90, 1, 0.3, 0.3);
+
+	//Floor 3
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 900, 15, 0, 950.f, -10.f, 0, 1, 0.3, 0.3);
+
+	//Floor 4
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 600, 15, 0, 1750.f, -10.f, 0, 1, 0.3, 0.3);
+
+	//Lock1 
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 55, 48, 0, 1425.f, -40.f, 0, 1, 0.3, 0.3);
+
+	//Lock2
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 150, 25, 1, 745.f, 250.f, 0, 1, 0.3, 0.3); //Down
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 150, 25, 1, 745.f, 310.f, 0, 1, 0.3, 0.3); //Up
+
+	//Lock3
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 1925.f, 150.f, 0, 1, 0.3, 0.3); //Down
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 70, 25, 1, 1890.f, 175.f, 90, 1, 0.3, 0.3);
+
+	//Wall 3
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 400, 50, 1, 2000.f, 250.f, 90, 1, 0.3, 0.3);
+
+	//Third door
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 80, 10, 0, 2000.f, 80.f, 90, 1, 0.3, 0.3);
+
+	//Floor 5
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 1000, 15, 0, 2500.f, -10.f, 0, 1, 0.3, 0.3);
+
+	//Lock4
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 2100.f, 85.f, 90, 1, 0.3, 0.3); //wall
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 2050.f, 120.f, 0, 1, 0.3, 0.3); //ceiling
+	
+	//Lock5
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 2888.f, 65.f, 90, 1, 0.3, 0.3); //wall right
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 150, 25, 1, 2950.f, 120.f, 0, 1, 0.3, 0.3); //ceiling
+
+	//Barrier for box and button
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 90, 10, 1, 2935.f, 40.f, 90, 1, 0.3, 0.3);
+
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 50, 5, 0, 2500.f, 285.f, 0, 1, 0.3, 0.3);
+	
+	//Wall 4
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 500, 50, 1, 3000.f, 225.f, 90, 1, 0.3, 0.3);
+
+	//End Floor
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 2500.f, 300.f, 0, 1, 0.3, 0.3);
+
+	//Button 4
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 50, 5, 0, 2500.f, 285.f, 0, 1, 0.3, 0.3);
+
+	//Roof
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 3000, 50, 1, 1500.f, 425.f, 0, 1, 0.3, 0.3);
 	
 
 	/*
