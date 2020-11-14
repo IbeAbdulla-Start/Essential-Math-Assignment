@@ -240,11 +240,15 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//Floor 5
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 1000, 15, 0, 2500.f, -10.f, 0, 1, 0.3, 0.3);
 
-	//Lock4
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 2100.f, 85.f, 90, 1, 0.3, 0.3); //wall
+	//Wall and tile for big ball
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 2100.f, 80.f, 90, 1, 0.3, 0.3); //wall
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 2050.f, 120.f, 0, 1, 0.3, 0.3); //ceiling
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 25, 25, 1, 2110.f, 126.f, 30, 1, 0.3, 0.3);
 	
-	//Lock5
+	//Lock3
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 50, 20, 1, 2135.f, 75.f, 0, 1, 0.3, 0.3);
+
+	//Wall and tile for lock and barrier for box
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 2888.f, 65.f, 90, 1, 0.3, 0.3); //wall right
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 150, 25, 1, 2950.f, 120.f, 0, 1, 0.3, 0.3); //ceiling
 
