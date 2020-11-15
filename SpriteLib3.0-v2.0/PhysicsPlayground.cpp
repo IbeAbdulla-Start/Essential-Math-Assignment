@@ -48,22 +48,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	}
 
 	
-	{
-		//Creates entity
-		auto entity = ECS::CreateEntity();
 
-
-		//Add components
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-
-		//Sets up components
-		std::string fileName = "boxSprite.jpg";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 300, 1000);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-300.f, 250.f, 100.f));
-	}
-	
 	//Link entity
 	{
 		/*Scene::CreatePhysicsSprite(m_sceneReg, "LinkStandby", 80, 60, 1.f, vec3(0.f, 30.f, 2.f), b2_dynamicBody, 0.f, 0.f, true, true)*/
@@ -109,21 +94,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 
 	
-		{
-			//Creates entity
-			auto entity = ECS::CreateEntity();
-			box2 = entity;
-
-			//Add components
-			ECS::AttachComponent<Sprite>(entity);
-			ECS::AttachComponent<Transform>(entity);
-
-			//Sets up components
-			std::string fileName = "boxSprite.jpg";
-			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 5, 90);
-			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-			ECS::GetComponent<Transform>(entity).SetPosition(vec3(161.f, 45.f, 100.f));
-		}
+	
 
 	{
 		auto entity = ECS::CreateEntity();
@@ -410,23 +381,32 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	}
 	*/
 
+	
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 }
 
 void PhysicsPlayground::Update()
 {
-	/*
 	vec3 position = ECS::GetComponent<Transform>(MainEntities::MainPlayer()).GetPosition();
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 
-	std::cout << position.x;
+	
+	
 
-	if (position.x >= 205 && position.x <= 225) {
-		Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 5, 90, 1, 215.f, 45.f, 90, 1, 0.3, 0.3);
+
+	if (position.x >= 205 && position.x <= 225 && counterHolder == 0)
+	{
+
+		
+		Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 5, 90, 1, 150.f, 45.f, 0, 0, 0.3, 0.3);
 		std::cout << "Sprite is made";
+		std::cout << position.x;
+		counterHolder++;
+
+
 	}
-	*/
+
 
 }
 

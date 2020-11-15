@@ -27,4 +27,6 @@ protected:
 	int box2 = 0;
 	int box3 = 0;
 	int box4 = 0;
+	int counterHolder = 0;
+
 };
