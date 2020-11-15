@@ -47,7 +47,22 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<VerticalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 	}
 
+	
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
 
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Sets up components
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 300, 1000);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-300.f, 250.f, 100.f));
+	}
 	
 	//Link entity
 	{
@@ -77,7 +92,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(2500.f), float32(320.f));
+		tempDef.position.Set(float32(-35.f), float32(15.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -88,9 +103,27 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(1.f);
+
+		
 	}
 
+
 	
+		{
+			//Creates entity
+			auto entity = ECS::CreateEntity();
+			box2 = entity;
+
+			//Add components
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			//Sets up components
+			std::string fileName = "boxSprite.jpg";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 5, 90);
+			ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3(161.f, 45.f, 100.f));
+		}
 
 	{
 		auto entity = ECS::CreateEntity();
@@ -170,10 +203,10 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	
 	//Floor1
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 340, 15, 0, 30.f, -10.f, 0, 1, 0.3, 0.3);
-	
+
 	//Wall
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 300, 1000, 100, -300.f, 250.f, 90, 1, 0.3, 0.3);
-	
+	Scene::CreatePhysiscsSprite(true, true, false, "boxSprite.jpg", 300, 1000, 100, -300.f, 250.f, 90, 1, 0.3, 0.3);
+
 	//Door1
 	Scene::CreatePhysiscsSprite(false, false, true, "boxSprite.jpg", 80, 10, 0, 155.f, 100.f, 90, 1, 0.3, 0.3);
 
@@ -383,7 +416,18 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 void PhysicsPlayground::Update()
 {
-	
+	/*
+	vec3 position = ECS::GetComponent<Transform>(MainEntities::MainPlayer()).GetPosition();
+	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+
+	std::cout << position.x;
+
+	if (position.x >= 205 && position.x <= 225) {
+		Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 5, 90, 1, 215.f, 45.f, 90, 1, 0.3, 0.3);
+		std::cout << "Sprite is made";
+	}
+	*/
+
 }
 
 

@@ -20,6 +20,8 @@ public:
 protected:
 	PhysicsPlaygroundListener listener;
 
+	unsigned int door1 = 0;
+
 	int ball = 0;
 	int box1 = 0;
 	int box2 = 0;
