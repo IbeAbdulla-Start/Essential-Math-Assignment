@@ -2,7 +2,7 @@
 
 #include "Trigger.h"
 
-class CreateTrigger:public Trigger
+class CreateTrigger : public Trigger
 {
 public:
 	void OnTrigger() override;

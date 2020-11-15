@@ -21,8 +21,11 @@ protected:
 	PhysicsPlaygroundListener listener;
 
 	unsigned int door1 = 0;
-
+	
 	int ball = 0;
+	int Trigger2b2 = 0;
+	int Trigger1b1 = 0;
+	int door2e = 0;
 	int box1 = 0;
 	int box2 = 0;
 	int box3 = 0;
