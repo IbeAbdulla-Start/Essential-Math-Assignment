@@ -185,8 +185,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 900, 15, 0, 250.f, -10.f, 0, 1, 0.3, 0.3);
 	
 	//First Ramp
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 80, 10, 0, 320.f, 8.7, 35, 1, 0.3, 0.3);
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 40, 48, 0, 370.f, 12.f, 0, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 40, 48, 0, 370.f, 12.f, 0, 1, 0.3, 0.3); 
 
 	//Button 1
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 50, 5, 0, 410.f, 0.f, 0, 1, 0.3, 0.3);
@@ -225,15 +224,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 600, 15, 0, 1750.f, -10.f, 0, 1, 0.3, 0.3);
 
 	//Lock1 
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 55, 48, 0, 1425.f, -40.f, 0, 1, 0.3, 0.3);
-
-	//Lock2
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 150, 25, 1, 745.f, 250.f, 0, 1, 0.3, 0.3); //Down
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 150, 25, 1, 745.f, 310.f, 0, 1, 0.3, 0.3); //Up
-
-	//Lock3
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 1925.f, 150.f, 0, 1, 0.3, 0.3); //Down
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 70, 25, 1, 1890.f, 175.f, 90, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "LinkStandby", 55, 48, 0, 1425.f, -40.f, 0, 1, 0.3, 0.3);
 
 	//Wall 3
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 400, 50, 1, 2000.f, 250.f, 90, 1, 0.3, 0.3);
@@ -244,17 +235,10 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//Floor 5
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 1000, 15, 0, 2500.f, -10.f, 0, 1, 0.3, 0.3);
 
-	//Wall and tile for big ball
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 2100.f, 80.f, 90, 1, 0.3, 0.3); //wall
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 2050.f, 120.f, 0, 1, 0.3, 0.3); //ceiling
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 25, 25, 1, 2110.f, 126.f, 30, 1, 0.3, 0.3);
-	
-	//Lock3
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 50, 20, 1, 2135.f, 75.f, 0, 1, 0.3, 0.3);
 
 	//Wall and tile for lock and barrier for box
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 2888.f, 65.f, 90, 1, 0.3, 0.3); //wall right
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 150, 25, 1, 2950.f, 120.f, 0, 1, 0.3, 0.3); //ceiling
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 150, 25, 1, 2950.f, 120.f, 0, 1, 0.3, 0.3); //ceilinga
 
 	//Barrier for box and button
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 90, 10, 1, 2935.f, 40.f, 90, 1, 0.3, 0.3);
@@ -407,6 +391,17 @@ void PhysicsPlayground::Update()
 
 	}
 
+	if (position.x >= 227 && position.x <= 229 && counterHolder == 1)
+	{
+
+
+		Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 5, 90, 1, 140.f, 45.f, 0, 0, 0.3, 0.3);
+		std::cout << "Sprite is made";
+		std::cout << position.x;
+		counterHolder++;
+
+
+	}
 
 }
 
