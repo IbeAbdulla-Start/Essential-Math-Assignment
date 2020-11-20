@@ -409,8 +409,12 @@ void PhysicsPlayground::Update()
 void PhysicsPlayground::KeyboardHold()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
-
+	auto& sprite = ECS::GetComponent<Sprite>(MainEntities::MainPlayer());
 	float speed = 1.f;
+	
+	int spriteHeight;
+	int spriteWidth;
+
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
 
 	if (Input::GetKey(Key::Shift))
@@ -431,10 +435,19 @@ void PhysicsPlayground::KeyboardHold()
 	if (Input::GetKey(Key::O))
 	{
 		player.ScaleBody(1.3 * Timer::deltaTime, 0);
+		spriteWidth = player.GetWidth(); // scaling up and down
+		spriteHeight = player.GetHeight();
+		sprite.SetWidth(spriteWidth);
+		sprite.SetHeight(spriteHeight);
+
 	}
 	else if (Input::GetKey(Key::I))
 	{
 		player.ScaleBody(-1.3 * Timer::deltaTime, 0);
+		spriteWidth = player.GetWidth();
+		spriteHeight = player.GetHeight();
+		sprite.SetWidth(spriteWidth);
+		sprite.SetHeight(spriteHeight);
 	}
 }
 
