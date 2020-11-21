@@ -527,7 +527,7 @@ void PhysicsPlayground::KeyboardDown()
 	auto& canJump = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
 	auto& Translate = ECS::GetComponent<TranslateT>(MainEntities::MainPlayer());
 
-
+	//Teleportation look at TranslateTrigger.cpp
 	if (Input::GetKeyDown(Key::F)) {
 		if (Translate.teleport1) {
 			player.SetPosition(b2Vec2(440, 165), 0);
@@ -537,7 +537,7 @@ void PhysicsPlayground::KeyboardDown()
 			player.SetPosition(b2Vec2(520, 5), 0);
 		}
 	}
-
+	//Gravity change and rotate
 	if (Input::GetKeyDown(Key::R)) {
 		if (m_gravity == b2Vec2(0.f, -98.f)) {
 			m_gravity = b2Vec2(0.f, 98.f);
@@ -565,6 +565,7 @@ void PhysicsPlayground::KeyboardDown()
 				player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 160000.f), true);
 				canJump.m_canJump = false;
 			}
+			//Jumping when gravity 
 			else if (m_gravity == b2Vec2(0.f, 98.f)) {
 				player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, -160000.f), true);
 				canJump.m_canJump = false;
