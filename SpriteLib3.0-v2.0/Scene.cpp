@@ -170,7 +170,7 @@ void Scene::CreatePhysiscsSprite(bool stad,bool circle, bool square,std::string 
 	tempPhsBody.SetRotationAngleDeg(angle);
 }
 
-unsigned int Scene::CreateTriggerPhysiscsSprite(bool stad, bool circle, bool square, std::string name, int width, int height, int layer, float posX, float posY, int angle, float transparency, float friction, float density)
+unsigned int  Scene::CreatePhysicsSpritetoControl(bool stad, bool circle, bool square, std::string name, int width, int height, int layer, float posX, float posY, int angle, float transparency, float friction, float density)
 {
 	auto entity = ECS::CreateEntity();
 

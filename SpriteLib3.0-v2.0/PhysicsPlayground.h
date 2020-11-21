@@ -20,8 +20,19 @@ public:
 protected:
 	PhysicsPlaygroundListener listener;
 
-	unsigned int door1 = 0;
+	int door1CloseT = 0;
+	int closeLock1 = 0;
+	int closeLock2 = 0;
+	int closeLock3 = 0;
+	bool closeT1 = true;
+	bool closeT2 = true;
+	bool closeT3 = true;
+	bool closeT4 = true;
 	
+	unsigned int rotationlid1 = 0;
+	unsigned int rotationlid2 = 0;
+	unsigned int rotationlid3 = 0;
+
 	int ball = 0;
 	int Tele1 = 0;
 	int Tele2 = 0;

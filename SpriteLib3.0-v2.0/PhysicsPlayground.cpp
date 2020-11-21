@@ -142,24 +142,25 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	{
 	//Creates entity
 	auto entity = ECS::CreateEntity();
-
+	door1CloseT = entity;
 	//Add components
-	ECS::AttachComponent<Sprite>(entity);
-	ECS::AttachComponent<Transform>(entity);
-	ECS::AttachComponent<PhysicsBody>(entity);
-	ECS::AttachComponent<Trigger*>(entity);
+	ECS::AttachComponent<Sprite>(door1CloseT);
+	ECS::AttachComponent<Transform>(door1CloseT);
+	ECS::AttachComponent<PhysicsBody>(door1CloseT);
+	ECS::AttachComponent<OnLock>(door1CloseT);
+	ECS::AttachComponent<Trigger*>(door1CloseT);
 
 	//Sets up components
 	std::string fileName = "boxSprite.jpg";
-	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 10);
-	ECS::GetComponent<Sprite>(entity).SetTransparency(0);
-	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 3.f));
-	ECS::GetComponent<Trigger*>(entity) = new DestroyTrigger();
-	ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
-	ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(box1);
+	ECS::GetComponent<Sprite>(door1CloseT).LoadSprite(fileName, 10, 10);
+	ECS::GetComponent<Sprite>(door1CloseT).SetTransparency(0);
+	ECS::GetComponent<Transform>(door1CloseT).SetPosition(vec3(30.f, -20.f, 3.f));
+	ECS::GetComponent<Trigger*>(door1CloseT) = new DestroyTrigger(0);
+	ECS::GetComponent<Trigger*>(door1CloseT)->SetTriggerEntity(door1CloseT);
+	ECS::GetComponent<Trigger*>(door1CloseT)->AddTargetEntity(box1);
 
-	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+	auto& tempSpr = ECS::GetComponent<Sprite>(door1CloseT);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(door1CloseT);
 
 	float shrinkX = 0.f;
 	float shrinkY = 0.f;
@@ -172,6 +173,86 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, TRIGGER, PLAYER | OBJECTS);
 	tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	}
+
+	//Door 2 that will be destroyed
+	
+	/*
+	{
+		auto entity = ECS::CreateEntity();
+		door2e = entity;
+
+		//Add components 
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components 
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 80, 10);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 1));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+
+		tempDef.position.Set(float32(694), float32(25));
+
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | TRIGGER, 0.3, 0.3);
+
+
+
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.f));
+		tempPhsBody.SetRotationAngleDeg(90.f);
+
+	}
+	*/
+	//Trigger for Lock 3
+
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		closeLock3 = entity;
+		//Add components
+		ECS::AttachComponent<Sprite>(closeLock3);
+		ECS::AttachComponent<Transform>(closeLock3);
+		ECS::AttachComponent<PhysicsBody>(closeLock3);
+		ECS::AttachComponent<OnLock>(closeLock3);
+		ECS::AttachComponent<Trigger*>(closeLock3);
+
+		//Sets up components
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 100, 10);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(0);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 3.f));
+		ECS::GetComponent<Trigger*>(entity) = new DestroyTrigger(1);
+		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(closeLock3);
+		ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(door2e);
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(closeLock3);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(closeLock3);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(1925.f), float32(170.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, TRIGGER, OBJECTS);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
 
 	{
@@ -246,19 +327,19 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	}
 	
 	//Floor1
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 340, 15, 0, 30.f, -10.f, 0, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "floor.png", 340, 15, 0, 30.f, -10.f, 0, 1, 0.3, 0.3);
 
 	//Wall
-	Scene::CreatePhysiscsSprite(true, true, false, "boxSprite.jpg", 300, 1000, 100, -300.f, 250.f, 90, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, true, false, "Wall.png", 300, 1000, 100, -300.f, 250.f, 90, 1, 0.3, 0.3);
 
 	//Door1
 	Scene::CreatePhysiscsSprite(false, false, true, "boxSprite.jpg", 80, 10, 0, 155.f, 100.f, 90, 1, 0.3, 0.3);
 
 	//Floor Down 2
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 900, 15, 0, 250.f, -10.f, 0, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "floor.png", 900, 15, 0, 250.f, -10.f, 0, 1, 0.3, 0.3);
 	
 	//First Ramp
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 40, 48, 0, 370.f, 12.f, 0, 1, 0.3, 0.3); 
+	Scene::CreatePhysiscsSprite(true, false, true, "floor.png", 40, 48, 0, 370.f, 12.f, 0, 1, 0.3, 0.3); 
 
 	//Teleporter Down
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 50, 5, 0, 520.f, 0.f, 0, 1, 0.3, 0.3);
@@ -267,16 +348,16 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	Scene::CreatePhysiscsSprite(false, false, true, "boxSprite.jpg", 25, 25, 0, 580.f, 12.f, 0, 1, 0.3, 0.3);
 
 	//Floor Up 1
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 15, 0, 410.f, 150.f, 0, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "floor.png", 100, 15, 0, 410.f, 150.f, 0, 1, 0.3, 0.3);
 	
 	//Teleporter Up
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 40, 5, 0, 440.f, 160.f, 0, 1, 0.3, 0.3);
 
 	//Second Ramp
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 15, 0, 330.f, 175.f, -30, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "floor.png", 100, 15, 0, 330.f, 175.f, -30, 1, 0.3, 0.3);
 
 	//Floor Up 2
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 15, 0, 250.f, 200.f, 0, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "floor.png", 100, 15, 0, 250.f, 200.f, 0, 1, 0.3, 0.3);
 
 	//Button 2
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 50, 5, 0, 200.f, 230.f, 90, 1, 0.3, 0.3);
@@ -285,47 +366,64 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 80, 10, 0, 694.f, 100.f, 90, 1, 0.3, 0.3); // make duplicate with y = 25.f later for closed door or dynamic body trick, either make a duplicate and make it a trigger to destroy it, then trigger another to show up after they pass the door
 	
 	//Wall 2
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 400, 50, 1, 694.f, 250.f, 90, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "Wall.png", 400, 50, 1, 694.f, 250.f, 90, 1, 0.3, 0.3);
 
 	//Floor 3
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 900, 15, 0, 950.f, -10.f, 0, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "floor.png", 900, 15, 0, 950.f, -10.f, 0, 1, 0.3, 0.3);
 
 	//Floor 4
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 600, 15, 0, 1750.f, -10.f, 0, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "floor.png", 600, 15, 0, 1750.f, -10.f, 0, 1, 0.3, 0.3);
 
 	//Lock1 
 	Scene::CreatePhysiscsSprite(true, false, true, "LinkStandby", 55, 48, 0, 1425.f, -40.f, 0, 1, 0.3, 0.3);
+	//rotationlid1 here
+
+	//Lock2
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 150, 25, 1, 745.f, 250.f, 0, 1, 0.3, 0.3); //Down
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 150, 25, 1, 745.f, 310.f, 0, 1, 0.3, 0.3); //Up
+	//rotationlid2 here
+
+	//Lock3
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 1925.f, 150.f, 0, 1, 0.3, 0.3); //Down
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 70, 25, 1, 1890.f, 175.f, 90, 1, 0.3, 0.3);
+	rotationlid3 = Scene::CreatePhysicsSpritetoControl(true, false, true, "boxSprite.jpg", 70, 25, 5, 1970.f, 230.f, 90, 1, 0.3, 0.3);//Up
+
+	//Wall and tile for big ball
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 2100.f, 80.f, 90, 1, 0.3, 0.3); //wall
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 2050.f, 120.f, 0, 1, 0.3, 0.3); //ceiling
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 25, 25, 1, 2110.f, 126.f, 30, 1, 0.3, 0.3);
+
 
 	//Wall 3
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 400, 50, 1, 2000.f, 250.f, 90, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "Wall.png", 400, 50, 1, 2000.f, 250.f, 90, 1, 0.3, 0.3);
 
 	//Third door
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 80, 10, 0, 2000.f, 80.f, 90, 1, 0.3, 0.3);
 
 	//Floor 5
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 1000, 15, 0, 2500.f, -10.f, 0, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "floor.png", 1000, 15, 0, 2500.f, -10.f, 0, 1, 0.3, 0.3);
 
 
 	//Wall and tile for lock and barrier for box
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 2888.f, 65.f, 90, 1, 0.3, 0.3); //wall right
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 150, 25, 1, 2950.f, 120.f, 0, 1, 0.3, 0.3); //ceilinga
+	Scene::CreatePhysiscsSprite(true, false, true, "Wall.png", 100, 25, 1, 2888.f, 65.f, 90, 1, 0.3, 0.3); //wall right
+	Scene::CreatePhysiscsSprite(true, false, true, "Wall.png", 150, 25, 1, 2950.f, 120.f, 0, 1, 0.3, 0.3); //ceilinga
 
 	//Barrier for box and button
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 90, 10, 1, 2935.f, 40.f, 90, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite", 90, 10, 1, 2935.f, 40.f, 90, 1, 0.3, 0.3);
 
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 50, 5, 0, 2500.f, 285.f, 0, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite", 50, 5, 0, 2500.f, 285.f, 0, 1, 0.3, 0.3);
 	
 	//Wall 4
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 500, 50, 1, 3000.f, 225.f, 90, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "Wall.png", 500, 50, 1, 3000.f, 225.f, 90, 1, 0.3, 0.3);
 
 	//End Floor
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 100, 25, 1, 2500.f, 300.f, 0, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "floor.png", 100, 25, 1, 2500.f, 300.f, 0, 1, 0.3, 0.3);
 
 	//Button 4
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 50, 5, 0, 2500.f, 285.f, 0, 1, 0.3, 0.3);
 
 	//Roof
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 3000, 50, 1, 1500.f, 425.f, 0, 1, 0.3, 0.3);
+	Scene::CreatePhysiscsSprite(true, false, true, "Wall.png", 3000, 50, 1, 1500.f, 425.f, 0, 1, 0.3, 0.3);
 	
 
 	/*
@@ -434,6 +532,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
 	*/
+	
 
 	
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
@@ -444,10 +543,30 @@ void PhysicsPlayground::Update()
 {
 	vec3 position = ECS::GetComponent<Transform>(MainEntities::MainPlayer()).GetPosition();
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
-
+	auto& door1 = ECS::GetComponent<OnLock>(door1CloseT);
+	auto& roationlocklid3 = ECS::GetComponent<PhysicsBody>(rotationlid3);
+	auto& roationlocklid3sptire = ECS::GetComponent<Sprite>(rotationlid3);
+	auto& lock3 = ECS::GetComponent<OnLock>(closeLock3);
 	
-	
+	if (door1.onlock1) {
+		if (closeT1) {
+			PhysicsBody::m_bodiesToDelete.push_back(box1);
+			closeT1 = false;
+		}
+	}
 
+	if (lock3.onlock2) {
+		roationlocklid3.SetRotationAngleDeg(0);
+		roationlocklid3.SetPosition(b2Vec2(1930, 210), 0);
+		roationlocklid3sptire.SetWidth(90);
+	}
+	else if(!lock3.onlock2){
+		roationlocklid3.SetRotationAngleDeg(90);
+		roationlocklid3.SetPosition(b2Vec2(1970, 230), 0);
+		roationlocklid3sptire.SetWidth(70);
+
+	}
+	
 
 	if (position.x >= 205 && position.x <= 225 && counterHolder == 0)
 	{
@@ -526,9 +645,17 @@ void PhysicsPlayground::KeyboardDown()
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 	auto& canJump = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
 	auto& Translate = ECS::GetComponent<TranslateT>(MainEntities::MainPlayer());
+	
+
+
+		
+
+	
 
 	//Teleportation look at TranslateTrigger.cpp
 	if (Input::GetKeyDown(Key::F)) {
+
+		
 		if (Translate.teleport1) {
 			player.SetPosition(b2Vec2(440, 165), 0);
 		}

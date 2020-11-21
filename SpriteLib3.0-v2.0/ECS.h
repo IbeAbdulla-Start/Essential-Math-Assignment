@@ -16,6 +16,7 @@
 #include "TranslateT.h"
 #include "TranslateTrigger.h"
 #include "OnTeleporter.h"
+#include "OnLock.h"
 
 
 class ECS abstract

@@ -4,34 +4,52 @@
 void DestroyTrigger::OnTrigger()
 {
 	Trigger::OnTrigger();
-
-	if (!triggered)
-	{
-		for (int i = 0; i < m_targetEntities.size(); i++)
-		{
-			PhysicsBody::m_bodiesToDelete.push_back(m_targetEntities[i]);
-		}
-
-		triggered = true;
-	}
 }
+	
 
 void DestroyTrigger::OnEnter()
 {
 	Trigger::OnEnter();
+	if (d == 0) {
+		
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock1 = true;
+		
+	}
+	else if (d == 1) {
 
-	if (!triggered)
-	{
-		for (int i = 0; i < m_targetEntities.size(); i++)
-		{
-			PhysicsBody::m_bodiesToDelete.push_back(m_targetEntities[i]);
-		}
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock2 = true;
 
-		triggered = true;
+	}
+	else if (d == 2) {
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock3 = true;
 	}
 }
 
 void DestroyTrigger::OnExit()
 {
 	Trigger::OnExit();
+	if (d == 0) {
+
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock1 = false;
+
+	}
+	else if (d == 1) {
+
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock2 = false;
+
+	}
+	else if (d == 2) {
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock3 = false;
+	}
+}
+
+DestroyTrigger::DestroyTrigger(int destroy)
+{
+	d = destroy;
 }

@@ -9,8 +9,8 @@ public:
 
 	void OnEnter() override;
 	void OnExit() override;
-protected:
-
-	bool triggered = false;
+	DestroyTrigger(int d);
+private:
+	int d;
 };
 
