@@ -6,7 +6,7 @@
 PhysicsPlayground::PhysicsPlayground(std::string name)
 	: Scene(name)
 {
-	//No gravity this is a top down scene
+	
 	m_gravity = b2Vec2(0.f, -98.f);
 	m_physicsWorld->SetGravity(m_gravity);
 
@@ -61,6 +61,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
 		ECS::AttachComponent<CanJump>(entity);
+		ECS::AttachComponent<TranslateT>(entity);
+		ECS::AttachComponent<OnTeleporter>(entity);
 
 		//Sets up the components
 		std::string fileName = "LinkStandby.png";
@@ -171,6 +173,77 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, TRIGGER, PLAYER | OBJECTS);
 	tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
+
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		Tele1 = entity;
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Trigger*>(entity);
+
+		//Sets up components
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 10);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(0);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 3.f));
+		ECS::GetComponent<Trigger*>(entity) = new TranslateTrigger(0);
+		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+		ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(MainEntities::MainPlayer());
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(520.f), float32(0.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, TRIGGER, PLAYER | OBJECTS);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	}
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		Tele2 = entity;
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Trigger*>(entity);
+
+		//Sets up components
+		std::string fileName = "boxSprite.jpg";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 10);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(0);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 3.f));
+		ECS::GetComponent<Trigger*>(entity) = new TranslateTrigger(1);
+		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+		ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(MainEntities::MainPlayer());
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(440.f), float32(160.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, TRIGGER, PLAYER | OBJECTS);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	}
 	
 	//Floor1
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 340, 15, 0, 30.f, -10.f, 0, 1, 0.3, 0.3);
@@ -186,9 +259,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	
 	//First Ramp
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 40, 48, 0, 370.f, 12.f, 0, 1, 0.3, 0.3); 
-
-	//Button 1
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 50, 5, 0, 410.f, 0.f, 0, 1, 0.3, 0.3);
 
 	//Teleporter Down
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 50, 5, 0, 520.f, 0.f, 0, 1, 0.3, 0.3);
@@ -455,17 +525,50 @@ void PhysicsPlayground::KeyboardDown()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 	auto& canJump = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
+	auto& Translate = ECS::GetComponent<TranslateT>(MainEntities::MainPlayer());
+
+
+	if (Input::GetKeyDown(Key::F)) {
+		if (Translate.teleport1) {
+			player.SetPosition(b2Vec2(440, 165), 0);
+		}
+
+		else if (Translate.teleport2) {
+			player.SetPosition(b2Vec2(520, 5), 0);
+		}
+	}
+
+	if (Input::GetKeyDown(Key::R)) {
+		if (m_gravity == b2Vec2(0.f, -98.f)) {
+			m_gravity = b2Vec2(0.f, 98.f);
+			m_physicsWorld->SetGravity(m_gravity);
+			player.SetRotationAngleDeg(180, 0);
+		}
+		else if (m_gravity == b2Vec2(0.f, 98.f)) {
+			m_gravity = b2Vec2(0.f, -98.f);
+			m_physicsWorld->SetGravity(m_gravity);
+			player.SetRotationAngleDeg(0, 0);
+		}
+	}
 
 	if (Input::GetKeyDown(Key::T))
 	{
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
 	}
+
+
 	if (canJump.m_canJump)
 	{
 		if (Input::GetKeyDown(Key::Space))
 		{
-			player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 160000.f), true);
-			canJump.m_canJump = false;
+			if (m_gravity == b2Vec2(0.f, -98.f)) {
+				player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 160000.f), true);
+				canJump.m_canJump = false;
+			}
+			else if (m_gravity == b2Vec2(0.f, 98.f)) {
+				player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, -160000.f), true);
+				canJump.m_canJump = false;
+			}
 		}
 	}
 }

@@ -13,6 +13,9 @@
 #include "DestroyTrigger.h"
 #include "HorizontalScroll.h"
 #include "CanJump.h"
+#include "TranslateT.h"
+#include "TranslateTrigger.h"
+#include "OnTeleporter.h"
 
 
 class ECS abstract

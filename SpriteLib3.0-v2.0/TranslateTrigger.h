@@ -9,9 +9,10 @@ public:
 
 	void OnEnter() override;
 	void OnExit() override;
+	TranslateTrigger(int translation);
 
-	b2Vec2 movement;
-protected:
-	bool triggered = false;
+	
+private:
+	int t = 0;
 };
 
