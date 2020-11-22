@@ -25,8 +25,14 @@ void DestroyTrigger::OnEnter()
 	else if (d == 2) {
 		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
 		object.onlock3 = true;
+
+	}
+	else if (d == 3) {
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock4 = true;
 	}
 }
+
 
 void DestroyTrigger::OnExit()
 {
@@ -46,6 +52,10 @@ void DestroyTrigger::OnExit()
 	else if (d == 2) {
 		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
 		object.onlock3 = false;
+	}
+	else if (d == 3) {
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock4 = false;
 	}
 }
 
