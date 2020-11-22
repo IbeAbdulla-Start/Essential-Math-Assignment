@@ -31,6 +31,22 @@ void DestroyTrigger::OnEnter()
 		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
 		object.onlock4 = true;
 	}
+	else if (d == 4) {
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock5 = true;
+	}
+	else if (d == 5) {
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock6 = true;
+	}
+	else if (d == 6) {
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock7 = true;
+	}
+	else if (d == 7) {
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock8 = true;
+	}
 }
 
 
@@ -56,6 +72,22 @@ void DestroyTrigger::OnExit()
 	else if (d == 3) {
 		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
 		object.onlock4 = false;
+	}
+	else if (d == 4) {
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock5 = false;
+	}
+	else if (d == 5) {
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock6 = false;
+	}
+	else if (d == 6) {
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock7 = false;
+	}
+	else if (d == 7) {
+		auto& object = ECS::GetComponent<OnLock>(m_triggerEntity);
+		object.onlock8 = false;
 	}
 }
 
