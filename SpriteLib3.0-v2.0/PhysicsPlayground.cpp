@@ -79,7 +79,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(2010.f), float32(10.f));  //-30,10 is spawn //2500, 315 is end condition
+		tempDef.position.Set(float32(-30.f), float32(10.f));  //-30,10 is spawn //2500, 315 is end condition
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -150,13 +150,15 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		auto entity = ECS::CreateEntity();
 		win = entity;
 
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<Sprite>(win);
+		ECS::AttachComponent<Transform>(win);
 
 		std::string fileName = "win.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 131, 101);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(0);
-		ECS::GetComponent<Transform>(entity).SetPosition(2500, 300, 100);
+		ECS::GetComponent<Sprite>(win).LoadSprite(fileName, 131, 101);
+		ECS::GetComponent<Sprite>(win).SetTransparency(0);
+		ECS::GetComponent<Transform>(win).SetPosition(2500, 350, 5);
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 	}
 
 	//lever for first level
@@ -1018,8 +1020,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//Teleporter Down
 	Scene::CreatePhysiscsSprite(true, false, true, "teleporter.png", 50, 5, 1, 520.f, 0.f, 0, 1, 0.3, 0.3);
 
-	//Crate 1
-	Scene::CreatePhysiscsSprite(false, false, true, "boxSprite.jpg", 25, 25, 1, 580.f, 12.f, 0, 1, 0.3, 0.3);
 
 	//Floor Up 1
 	Scene::CreatePhysiscsSprite(true, false, true, "floor.png", 100, 15, 1, 410.f, 150.f, 0, 1, 0.3, 0.3);
@@ -1036,10 +1036,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//Wall for lever
 	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 50, 5, 1, 198.f, 230.f, 90, 1, 0.3, 0.3);
 	
-	
-
-	//Second door
-	Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 80, 10, 1, 694.f, 100.f, 90, 1, 0.3, 0.3); // make duplicate with y = 25.f later for closed door or dynamic body trick, either make a duplicate and make it a trigger to destroy it, then trigger another to show up after they pass the door
 	
 	//Wall 2
 	Scene::CreatePhysiscsSprite(true, false, true, "Wall.png", 400, 50, 1, 694.f, 250.f, 90, 1, 0.3, 0.3);
@@ -1060,7 +1056,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	Scene::CreatePhysiscsSprite(true, false, true, "box.png", 150, 25, 1, 745.f, 250.f, 0, 1, 0.3, 0.3); //Down
 	Scene::CreatePhysiscsSprite(true, false, true, "box.png", 150, 25, 1, 745.f, 310.f, 0, 1, 0.3, 0.3); //Up
 	//rotationlid2 here
-	rotationlid2 = Scene::CreatePhysicsSpritetoControl(true, false, true, "box.png", 70, 25, 5, 795.f, 345.f, 0, 1, 0.3, 0.3);//Up
+	rotationlid2 = Scene::CreatePhysicsSpritetoControl(true, false, true, "box.png", 70, 25, 5, 745.f, 345.f, 0, 1, 0.3, 0.3);//Up
 
 	//Lock3
 	Scene::CreatePhysiscsSprite(true, false, true, "box.png", 100, 25, 1, 1925.f, 150.f, 0, 1, 0.3, 0.3); //Down
@@ -1387,7 +1383,7 @@ void PhysicsPlayground::Update()
 	}
 	else if (!lock2.onlock3) {
 		roationlocklid2.SetRotationAngleDeg(0);
-		roationlocklid2.SetPosition(b2Vec2(795, 345), 0);
+		roationlocklid2.SetPosition(b2Vec2(745, 310), 0);
 		roationlocklid2sptire.SetWidth(70);
 
 	}
@@ -1416,6 +1412,8 @@ void PhysicsPlayground::Update()
 		
 		Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 5, 90, 1, 148.f, 45.f, 0, 0, 0.3, 0.3);
 		Scene::CreatePhysiscsSprite(true, false, true, "boxSprite.jpg", 5, 90, 1, 138.f, 45.f, 0, 0, 0.3, 0.3);
+		
+		
 
 		
 		counterHolder++;
@@ -1443,9 +1441,9 @@ void PhysicsPlayground::Update()
 
 	}
 
-	if (position.x >= 2455 && position.x <= 2545 && position.y >= 290 && position.y <= 320 && counterHolder == 0) {
-
+	if (position.x >= 2455 && position.x <= 2545 && position.y >= 300 && position.y <= 350 && counterHolder == 3){
 		winconditon.SetTransparency(1);
+		
 		counterHolder++;
 	}
 
@@ -1525,10 +1523,10 @@ void PhysicsPlayground::KeyboardDown()
 		if (destroywalls1.onlock6) {
 			leverupsiderleft.SetTransparency(0);
 			leverupsideright.SetTransparency(1);
-			if (closeT3) {
+			if (closeT6) {
 				PhysicsBody::m_bodiesToDelete.push_back(enddoor1);
 				PhysicsBody::m_bodiesToDelete.push_back(enddoor2);
-				closeT3 = false;
+				closeT6 = false;
 			}
 		}
 

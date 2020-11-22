@@ -33,6 +33,7 @@ protected:
 	bool closeT3 = true;
 	bool closeT4 = true;
 	bool closeT5 = true;
+	bool closeT6 = true;
 	
 	unsigned int rotationlid1 = 0;
 	unsigned int rotationlid2 = 0;
